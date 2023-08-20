@@ -1,22 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-
-# Fake, but the idea is to actually save various market edge studies and refer back to them somehow
-studys = [
-    { 'id':1, 'study_name': 'tsla-gap-4percent' },
-    { 'id':2, 'study_name': 'nvda-weekday' },
-    { 'id':3, 'study_name': 'csco-earnings-20230522' }
-
-]
+from .models import Study
 
 def home(request):
-    return render(request, 'main.html')
+    return HttpResponse("a placeholder")
+    # studies = Study.objects.all()
+    # context = {'studies': studies }
+    # return render(request, 'main.html', context)
 
-def study(request):
-    study = 1
-    context = {'study': study}
-    return render(request, 'core/study.html', context)
+def study(request, pk):
+    return HttpResponse("a placeholder")
+    # study = Study.objects.get(id=pk)
+    # context = {'study': study}
+    # return render(request, 'core/study.html', context)
+    # Will probably delete.  Maybe can use as base view?  not sure yet.  
 
 def blank_url(request):
     return HttpResponse("a placeholder")

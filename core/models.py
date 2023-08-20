@@ -1,6 +1,23 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import AbstractUser
 
+
+class User(AbstractUser):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200, null=True)
+    email = models.EmailField(unique=True, null=True)
+    bio = models.TextField(null=True)
+
+    avatar = models.ImageField(null=True, default="avatar.svg")
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+# Should we do 1. Study Type -> study (general) -> study (specific)
+# or           2. study(general) -> study(type) -> study(specific) ?
 
 class StudyType(models.Model):
     WEEKDAY_STUDY = 'weekday_study'
@@ -26,12 +43,13 @@ class StudyType(models.Model):
         return self.status
 
 class Study(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    study_creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     study_type = models.ForeignKey(StudyType, on_delete=models.SET_NULL, null=True)
     ticker = models.CharField(max_length=6)                         # (required) the ticker: tsla, nvda (pre populate or just add them)
-    type = models.CharField(max_length=20)                           # (required) type of study gap, move, eps, weekday  (foreign key?)
-    study_move_value = models.IntegerField(blank=True, null=True)   # (optional) magnitude of move 4%, 10%
-    study_move_volume = models.IntegerField(blank=True, null=True)  # (optional) volume of move 1, 10, 20 in millions of shares (*10^6)
-    study_date = models.DurationField(null=True, blank=True)        # (required) The date the study was run for
+    study_move_value = models.IntegerField(default=0)               # (optional) magnitude of move 4%, 10%
+    study_move_volume = models.IntegerField(default=0)              # (optional) volume of move 1, 10, 20 in millions of shares (*10^6)
+    study_date = models.DateField(null=True, blank=True)            # (required) The date the study was run for
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -41,7 +59,28 @@ class Study(models.Model):
         ordering = ['-updated', '-created']
 
     def __str__(self):
-        return self.name
+        return_string ='{study_type} for {ticker} __({study_move_value}%) ({study_move_volume} million) on {study_date})'.format(study_type=self.study_type,
+                        ticker=self.ticker,
+                        study_move_value=self.study_move_value,
+                        study_move_volume=self.study_move_volume,
+                        study_date=self.study_date)
+
+
+        return return_string
+
+class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    study = models.ForeignKey(Study, on_delete=models.CASCADE)
+    body = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+    def __str__(self):
+        return self.body[0:50]
 
     # Each study should be its own app.  Core will have all helper logic though, and this base Study to inherit
 
