@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'users.apps.UsersConfig',
     'weekdayStudy.apps.WeekdaystudyConfig'
 ]
 
@@ -132,4 +133,5 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = "users.CustomUser"
+
