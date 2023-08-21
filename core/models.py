@@ -48,7 +48,7 @@ class Study(models.Model):
         #abstract = True
 
     def __str__(self):
-        return_string ='{study_type} for {ticker} __({study_move_value}%) ({study_move_volume} million) on {study_date})'.format(study_type=self.study_type,
+        return_string ='[{study_type}]-{ticker}__(move:{study_move_value}%) (volume:{study_move_volume} million)___{study_date})'.format(study_type=self.study_type,
                         ticker=self.ticker,
                         study_move_value=self.study_move_value,
                         study_move_volume=self.study_move_volume,
