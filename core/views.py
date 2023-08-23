@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Study
+from .models.models_study import Study
 
 def home(request):
     studies = Study.objects.all()
