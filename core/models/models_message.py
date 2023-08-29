@@ -22,7 +22,6 @@ class Message(models.Model):
     def __str__(self):
         return self.body[0:50]
 
-    # Each study should be its own app.  Core will have all helper logic though, and this base Study to inherit
 
 
 

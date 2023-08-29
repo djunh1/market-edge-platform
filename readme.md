@@ -13,7 +13,7 @@ brew install virtualenv
 pyenv install --list
 ```
 
-Proiceed with version 3.11 installation:
+Proceeed with version 3.11 installation:
 ```
 pyenv install 3.11.0
 ```

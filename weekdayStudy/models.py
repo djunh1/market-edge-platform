@@ -1,21 +1,8 @@
 from django.db import models
-from core.models.models_study import Study, StudyType
+from core.models.models_study import Study
 
-DAYS_OF_WEEK = (
-    (0, 'Monday'),
-    (1, 'Tuesday'),
-    (2, 'Wednesday'),
-    (3, 'Thursday'),
-    (4, 'Friday'),
-    (5, 'Saturday'),
-    (6, 'Sunday'),
-)
 
 class WeekdayStudy(Study):
-    study_type = models.ForeignKey(StudyType,
-                                   default='WEEKDAY_STUDY',
-                                   on_delete=models.SET_NULL,
-                                   null=True)
 
     '''
     A little brutal but lets just run with it for now

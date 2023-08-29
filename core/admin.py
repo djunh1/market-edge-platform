@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 # from .models import Study
-from .models.models_study import StudyType
 from .models.models_study import CustomUser
+from .models.models_message import Message
 
 
-# admin.site.register(Study)
-admin.site.register(StudyType)
+admin.site.register(Message)
+
 
