@@ -39,5 +39,12 @@ pip install numpy pandas matplotlib
 of python runtimes to use.  Find "django-mkt-app" (python 3.11.0) or whatever you named your virtual environment.
 
 
+# Testing
+
+1. Install model bakery 
+
+```
+pip install model_bakery
+```
 
 

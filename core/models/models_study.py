@@ -3,9 +3,23 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
+
 
 from users.models import CustomUser
 
+# validators
+
+def validate_study_types(value):
+
+    if ('weekday_study' in value or
+        'gap_study' in value or
+        'move_study' in value or
+        'fundamentals_study' in value or
+        'ep_study' in value) :
+        return value
+    else:
+        raise ValidationError("This field accepts only a specific study")
 
 # Maybe add stock or company models too.  But for now we will use the ticker in these models for simplicity
 class Study(models.Model):
@@ -22,7 +36,7 @@ class Study(models.Model):
 
     WEEKDAY_STUDY = 'weekday_study'
     GAP_STUDY = 'gap_study'
-    MOVE_STUDY = 'move study'
+    MOVE_STUDY = 'move_study'
     FUNDAMENTALS_STUDY = 'fundamentals_study'
     EP_STUDY = 'ep_study'
     STUDY_OPTIONS = [
@@ -37,6 +51,7 @@ class Study(models.Model):
        max_length=32,
        choices=STUDY_OPTIONS,
        default=WEEKDAY_STUDY,
+       validators=[validate_study_types]
     )
 
     class Meta:

@@ -4,9 +4,11 @@ import unittest
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from .models import Study, StudyType
+from weekdayStudy.models import Study, WeekdayStudy
 from users.models import CustomUser
 from weekdayStudy.models import WeekdayStudy
+
+from model_bakery import baker
 
 STOCK_TICKER = 'NVDA'
 STUDY_DESCRIPTION = 'Weekday study'
@@ -19,12 +21,11 @@ class WeekdayStudyTestCase(TestCase):
     def setUp(self):
         study_date = datetime.date.today()
         User = get_user_model()
-        user = User.objects.create_user(email="hat-tricks@unassisted.com",
-                                        password="t3h-23rv1c3-D3sk")
+        user = User.objects.create_user(email="Montagu_Norman@test.com",
+                                        password="goBoe")
 
-        study_type = StudyType.objects.create(status='weekday_study')
         WeekdayStudy.objects.create(study_creator=user,
-                                    study_type=study_type,
+                                    study_type='weekday_study',
                                     ticker=STOCK_TICKER,
                                     study_date_end=study_date,
                                     description = STUDY_DESCRIPTION,
@@ -48,7 +49,8 @@ class WeekdayStudyTestCase(TestCase):
                                     )
 
     def test_populating_weekday_study(self):
-        # Discuss this as a model before making the migrations...
-        nvda_study = WeekdayStudy.objects.all().first()
-        self.assertEqual(nvda_study.chg_today_count_up_monday, 25)
+        # TODO model discussion
+        study = baker.make(WeekdayStudy, ticker="NVDA")
+        self.assertEqual(str(study), "[weekday_study]-NVDA__(None)")
+
 
