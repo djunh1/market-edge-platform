@@ -49,7 +49,7 @@ class WeekdayStudyTestCase(TestCase):
                                     )
 
     def test_populating_weekday_study(self):
-        # TODO model discussion
+        # TODO Still undecided. 
         study = baker.make(WeekdayStudy, ticker="NVDA")
         self.assertEqual(str(study), "[weekday_study]-NVDA__(None)")
 

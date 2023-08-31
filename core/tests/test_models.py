@@ -2,6 +2,7 @@ import datetime
 import unittest
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -11,13 +12,11 @@ from core.models.models_message import Message
 from users.models import CustomUser
 from weekdayStudy.models import WeekdayStudy
 
-from django.core.exceptions import ValidationError
-
 STOCK_TICKER = 'NVDA'
 STUDY_DESCRIPTION = 'A cool study'
 STUDY_TYPE = 'weekday_study'
 
-class TestModels(TestCase):
+class TestStudyModels(TestCase):
 
     def today():
         return datetime.date.today()
@@ -36,7 +35,6 @@ class TestModels(TestCase):
                                     description = STUDY_DESCRIPTION)
 
     def test_create_default_study_setup(self):
-
         TEST_STRING ='[{study_type}]-{ticker}__({study_date_end})'.format(study_type=STUDY_TYPE, ticker=STOCK_TICKER, study_date_end=datetime.date.today())
 
         nvda_study = WeekdayStudy.objects.all().first()
@@ -61,9 +59,7 @@ class TestModels(TestCase):
         '''
         FAKE_USER_STUDY_TYPE ='random_study'
 
-
         User = get_user_model()
-
         user = User.objects.create_user(email="ben-bernake@test.test", password="t3h-23rv1c3-D3sk")
 
         with self.assertRaises(ValidationError):
@@ -81,8 +77,6 @@ class TestModels(TestCase):
                                 study_type=FAKE_USER_STUDY_TYPE,
                                 ticker=STOCK_TICKER)
             study_no_user.full_clean()
-
-
 
     def test_study_has_messages(self):
         '''

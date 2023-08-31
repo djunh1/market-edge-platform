@@ -41,10 +41,15 @@ of python runtimes to use.  Find "django-mkt-app" (python 3.11.0) or whatever yo
 
 # Testing
 
-1. Install model bakery 
+1. Install model bakery - this will help with object creation especially for the large objects with a large number of fields in them. 
 
 ```
 pip install model_bakery
 ```
 
+2.  Everything about python is easy except the testing.  Use this debugger on the line you want your test to pause.
+
+```
+import pdb; pdb.set_trace()
+```
 

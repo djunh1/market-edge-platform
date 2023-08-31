@@ -6,7 +6,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 class SignUp(generic.CreateView):
@@ -17,25 +17,23 @@ class SignUp(generic.CreateView):
 
 @login_required(login_url='login')
 def updateUser(request):
-    return HttpResponse("a placeholder")
-    # user = request.user
-    # form = UserForm(instance=user)
+    user = request.user
+    form = CustomUserChangeForm(instance=user)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
 
-    # if request.method == 'POST':
-    #     form = UserForm(request.POST, request.FILES, instance=user)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('user-profile', pk=user.id)
-
-    # return render(request, 'base/update-user.html', {'form': form})
+    return render(request, 'update-user.html', {'form': form})
 
 def userProfile(request, pk):
     user = CustomUser.objects.get(id=pk)
     studies = user.study_set.all()
-    room_messages = user.message_set.all()
+    study_messages = user.message_set.all()
     context = {'user': user,
                'studies': studies,
-               'room_messages': room_messages}
+               'study_messages': study_messages}
     return render(request, 'profile.html', context)
 
 def logoutUser(request):

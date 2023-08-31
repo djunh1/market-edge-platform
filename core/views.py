@@ -43,6 +43,9 @@ def study(request, pk):
 
 @login_required(login_url='login')
 def deleteMessage(request, pk):
+    '''
+    Plot twist, we won't be allowing deletions of messages probably
+    '''
     message = Message.objects.get(id=pk)
 
     if request.user != message.user:
@@ -53,5 +56,3 @@ def deleteMessage(request, pk):
         return redirect('home')
     return render(request, 'core/delete.html', {'obj': message})
 
-def blank_url(request):
-    return HttpResponse("a placeholder")
