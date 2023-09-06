@@ -9,3 +9,9 @@ class WeekdayStudyForm(ModelForm):
         model = WeekdayStudy
         fields = '__all__'
         exclude = ['study_creator']
+
+class WeekdayStudyEditForm(ModelForm):
+    class Meta:
+        model = WeekdayStudy
+        fields = ('description', )
+        exclude = ['study_creator']

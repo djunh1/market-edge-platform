@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from .models import WeekdayStudy
+from .forms import WeekdayStudyEditForm
 from core.models.models_message import Message
 from users.models import CustomUser
 from users.forms import CustomUserChangeForm
@@ -40,27 +41,25 @@ def createWeekdayStudy(request):
     return render(request, 'weekdayStudy_form.html', context)
 
 
-@login_required(login_url='login')
-def updateWeekdayStudy(request, pk):
-    '''
-    Probably won't allow updating of too many fields of studies.  Want a study to be mostly immutable
-    so as to avoid hindsight bias
-    '''
-    weekday_study = WeekdayStudy.objects.get(id=pk)
+# @login_required(login_url='login')
+# def updateWeekdayStudy(request, pk):
+#     '''
+#     Probably won't allow updating of too many fields of studies.  Want a study to be mostly immutable
+#     so as to avoid hindsight bias
+#     '''
+#     weekday_study = WeekdayStudy.objects.get(id=pk)
 
-    # pre fills a form with a specific instance
-    form = WeekdayStudy(instance=weekday_study)
+#     # pre fills a form with a specific instance
+#     form = WeekdayStudy(instance=weekday_study)
 
-    if request.user != weekday_study.study_creator:
-        return HttpResponse('Your are not allowed here!!')
+#     if request.user != weekday_study.study_creator:
+#         return HttpResponse('Your are not allowed here!!')
 
-    if request.method == 'POST':
-        topic_name = request.POST.get('topic')
-        weekday_study.ticker = request.POST.get('ticker')
-        weekday_study.description = request.POST.get('description')
-        weekday_study.save()
-        return redirect('home')
+#     if request.method == 'POST':
+#         weekday_study.description = request.POST.get('description')
+#         weekday_study.save()
+#         return redirect('home')
 
 
-    context = {'form': form}
-    return render(request, 'weekdayStudy_form.html', context)
+#     context = {'form': form}
+#     return render(request, 'weekdayStudy_form.html', context)
