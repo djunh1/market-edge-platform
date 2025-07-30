@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<!-- Main Section -->
+<form method="POST">
+    {% csrf_token %}
+    <p> Confirm delete "{{object}}"
+    <a class="btn btn--sub btn--lg  my-md" href="{% url 'portfolios' %}">
+        Go back!
+
+    </a>
+    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Confirm" />
+    
+</form>
+
+{% endblock %}
