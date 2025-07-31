@@ -9,10 +9,9 @@
     <div class="card">
         <div class="auth__header text-center">
             <a href="/">
-                <img src="{% static 'images/icon.svg' %}" alt="icon" />
+                <img src="{% static 'images/hhlogo2.svg' %}" alt="icon" />
             </a>
-            <h3>Register an Account</h3>
-            <p>Create a new developer account</p>
+            <h3>Request to register</h3>
         </div>
 
         <p>{{form.errors}}</p>
@@ -40,7 +39,7 @@
             </div>
         </form>
         <div class="auth__alternative">
-            <p>Already have an Account?</p>
+            <p>Already a member?</p>
             <a href="{% url 'login' %}">Log In</a>
         </div>
     </div>
@@ -55,11 +54,10 @@
     <div class="card">
 
         <div class="auth__header text-center">
-            <a href="/">
-                <img src="{% static 'images/icon.svg' %}" alt="icon" />
+            <a href="/" class=" avatar--md">
+                <img src="{% static 'images/hhlogo2.png' %}" alt="icon" />
             </a>
             <h3>Account Login</h3>
-            <p>Hello Developer, Welcome Back!</p>
         </div>
 
         <form action="" method="POST" class="form auth__form">
@@ -80,7 +78,7 @@
 
             <div class="auth__actions">
                 <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
-                <a href="{% url 'reset_password' %}">Forget Password?</a>
+                <a href="{% url 'portfolios' %}">Forget Password?</a>
             </div>
         </form>
 

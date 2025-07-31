@@ -4,7 +4,10 @@ from django.http import HttpResponse
 from .models import Portfolio
 from .forms import PortfolioForm
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="login")
 def portfolios(request):
     # portfolios, search_query = searchportfolios(request)
     # custom_range, portfolios = paginateportfolios(request, portfolios, 6)
@@ -12,13 +15,16 @@ def portfolios(request):
     context = {'portfolios': portfolios}
     return render(request, 'portfolios/portfolios.html', context)
 
+@login_required(login_url="login")
 def portfolio(request, pk):
     portfolio = Portfolio.objects.get(id=pk)
     return render(request, 'portfolios/portfolio.html', {'portfolio': portfolio})
 
+@login_required(login_url="login")
 def stock(request, pk):
     return HttpResponse('Caesar')
 
+@login_required(login_url="login")
 def createPortfolio(request):
     portfolio_form = PortfolioForm()
     context = {'form': portfolio_form}
@@ -31,6 +37,7 @@ def createPortfolio(request):
 
     return render(request, 'portfolios/portfolio_form.html', context)
 
+@login_required(login_url="login")
 def updatePortfolio(request, pk):
 
     portfolio = Portfolio.objects.get(id=pk)
@@ -51,6 +58,7 @@ def updatePortfolio(request, pk):
     context = {'form': portfolio_form , 'portfolio': portfolio}
     return render(request, "portfolios/portfolio_form.html", context)
 
+@login_required(login_url="login")
 def deletePortfolio(request, pk):
     portfolio = Portfolio.objects.get(id=pk)
     if request.method == 'POST':
