@@ -8,8 +8,8 @@
 <div class="auth">
     <div class="card">
         <div class="auth__header text-center">
-            <a href="/">
-                <img src="{% static 'images/hhlogo2.svg' %}" alt="icon" />
+            <a href="/" class="avatar--md">
+                <img src="{% static 'images/hhlogo2.png' %}" alt="icon" />
             </a>
             <h3>Request to register</h3>
         </div>
@@ -35,7 +35,7 @@
             {% endfor %}
 
             <div class="auth__actions">
-                <input class="btn btn--sub btn--lg" type="submit" value="Sign  In" />
+                <input class="btn btn--sub btn--md" type="submit" value="Submit" />
             </div>
         </form>
         <div class="auth__alternative">
@@ -54,7 +54,7 @@
     <div class="card">
 
         <div class="auth__header text-center">
-            <a href="/" class=" avatar--md">
+            <a href="/" class="avatar--md">
                 <img src="{% static 'images/hhlogo2.png' %}" alt="icon" />
             </a>
             <h3>Account Login</h3>

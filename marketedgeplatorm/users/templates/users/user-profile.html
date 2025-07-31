@@ -11,7 +11,7 @@
                 <div class="card text-center">
                     <div class="card__body dev">
                         <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
-                        <h2 class="dev__name">{{profile.name}}</h2>
+                        <h2 class="dev__name">{{profile.username}}</h2>
 
                         {% comment %} {% if request.user.profile.id != profile.id %}
                         <a href="{% url 'create-message' profile.id %}" class="btn btn--sub btn--lg">Send Message </a>
@@ -38,7 +38,7 @@
                                         <h3 class="portfolio__title">{{portfolio.title}}</h3>
                                         <p><a class="portfolio__author"
                                                 href="{% url 'user-profile' portfolio.owner.id %}">By
-                                                {{portfolio.owner.name}}</a>
+                                                {{portfolio.owner.username}}</a>
                                         </p>
                                         <div class="portfolio__tags">
 
