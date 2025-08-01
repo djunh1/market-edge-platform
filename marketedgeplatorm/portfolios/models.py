@@ -1,9 +1,11 @@
 from django.db import models
 import uuid
 from django.utils.translation import gettext_lazy as _
-
+from users.models import Profile
 
 class Portfolio(models.Model):
+    owner = models.ForeignKey(
+        Profile, null=True, blank=True, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)

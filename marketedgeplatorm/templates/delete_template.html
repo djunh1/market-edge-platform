@@ -4,15 +4,20 @@
 
 
 <!-- Main Section -->
-<form method="POST">
-    {% csrf_token %}
-    <p> Confirm delete "{{object}}"
-    <a class="btn btn--sub btn--lg  my-md" href="{% url 'portfolios' %}">
-        Go back!
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <br>
+            <form class="form" action="" method="POST">
+                {% csrf_token %}
+                <p>Confirm Delete"{{object}}"?</p>
 
-    </a>
-    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Confirm" />
-    
-</form>
+                <a class="btn btn--sub btn--lg  my-md" href="{{request.GET.next}}">Go Back</a>
+
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Confirm" />
+            </form>
+        </div>
+    </div>
+</main>
 
 {% endblock %}

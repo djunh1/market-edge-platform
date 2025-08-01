@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static %}
+
+<!-- Main Section -->
+<main class="profile my-md">
+    <div class="container">
+        <div class="layout">
+            <div class="column column--1of3">
+                <div class="card text-center">
+                    <div class="card__body dev">
+                        <img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
+                        <h2 class="dev__name">{{profile.username}}</h2>
+
+                        {% comment %} {% if request.user.profile.id != profile.id %}
+                        <a href="{% url 'create-message' profile.id %}" class="btn btn--sub btn--lg">Send Message </a>
+                        {% endif %} {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            <div class="column column--2of3">
+                <div class="devInfo">
+                    <h3 class="devInfo__title">About</h3>
+                    <p class="devInfo__about">{{profile.bio}}</p>
+                </div>
+
+                <div class="devInfo">
+                    <h3 class="devInfo__title">Portfolios</h3>
+                    <div class="grid grid--two">
+                        {% for portfolio in profile.portfolio_set.all %}
+                        <div class="column">
+                            <div class="card portfolio">
+                                <a href="{% url 'portfolio' portfolio.id %}" class="portfolio">
+                                    <img class="portfolio__thumbnail" src="{% static 'images/portfolios/portfolio-default.png'%}"
+                                        alt="portfolio thumbnail" />
+                                    <div class="card__body">
+                                        <h3 class="portfolio__title">{{portfolio.title}}</h3>
+                                        <p><a class="portfolio__author"
+                                                href="{% url 'user-profile' portfolio.owner.id %}">By
+                                                {{portfolio.owner.username}}</a>
+                                        </p>
+                                        <div class="portfolio__tags">
+
+                                            {% for tag in portfolio.tags.all %}
+                                            <span class="tag tag--pill tag--main">
+                                                <small>{{tag}}</small>
+                                            </span>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

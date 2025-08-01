@@ -6,3 +6,5 @@ __pycache__
 .cache
 .env
 /staticfiles/
+__pycache__
+static/images/profiles

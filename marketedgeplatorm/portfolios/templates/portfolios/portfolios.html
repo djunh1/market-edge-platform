@@ -15,7 +15,7 @@
                     <div class="form__field">
                         <label for="formInput#search">Search By Portfolios </label>
                         <input class="input input--text" id="formInput#search" type="text" name="search_query"
-                            placeholder="Search by Project Title" value="{{search_query}}" />
+                            placeholder="Search by portfolio Title" value="{{search_query}}" />
                     </div>
 
                     <input class="btn btn--sub btn--lg" type="submit" value="Search" />
@@ -33,9 +33,11 @@
                     <div class="card portfolio">
                         <a href="{% url 'portfolio' portfolio.id %}" class="portfolio">
                             <div class="card__body">
-                                <h5 class="project__title">{{portfolio.name}}</h3>
+                                <h5 class="portfolio__title">{{portfolio.name}}</h3>
+                                    <p><a class="portfolio__author" href="{% url 'user-profile' portfolio.owner.id %}">{{portfolio.owner.name}}</a>
+                                </p>
 
-                                <div class="project__tags">
+                                <div class="portfolio__tags">
                                     {% for tag in portfolio.tags.all %}
                                     <span class="tag tag--pill tag--main">
                                         <small>{{tag}}</small>
