@@ -1,15 +1,33 @@
-from django.db import models
-from django.contrib.auth.models import User
 import uuid
-# Create your models here.
 
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+from .managers import CustomUserManager
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_("email address"), unique=True)
+    username = models.CharField(max_length=200, null=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, null=True, blank=True)
+        CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField(max_length=500, blank=True, null=True)
     username = models.CharField(max_length=200, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
