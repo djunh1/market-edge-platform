@@ -18,3 +18,17 @@ class CustomUserCreationForm(UserCreationForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['email', 'username','bio','profile_image',
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['email'].disabled = True
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})

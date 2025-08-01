@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import conf
 from django.db.models import Q
 from .models import Profile
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileForm
 
 
 def loginUser(request):
@@ -55,7 +55,7 @@ def registerUser(request):
             messages.success(request, 'Account created')
 
             login(request, user)
-            return redirect('portfolios')
+            return redirect('edit-account')
 
         else:
             messages.success(
@@ -77,3 +77,28 @@ def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {'profile': profile}
     return render(request, 'users/user-profile.html', context)
+
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile = request.user.profile
+
+    portfolios = profile.portfolio_set.all()
+
+    context = {'profile': profile, 'portfolios': portfolios}
+    return render(request, 'users/account.html', context)
+
+@login_required(login_url='login')
+def editAccount(request):
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'users/profile_form.html', context)

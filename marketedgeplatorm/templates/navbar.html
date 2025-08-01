@@ -14,15 +14,13 @@
                 <div class="toggle-menu__lines"></div>
             </label>
             <ul class="header__menu">
-                <li class="header__menuItem"><a href="{% url 'profiles' %}">Timeline</a></li>
-                <li class="header__menuItem"><a href="{% url 'profiles' %}">Blog</a></li>
-                <li class="header__menuItem"><a href="{% url 'profiles' %}">How To</a></li>
-                <li class="header__menuItem"><a href="{% url 'profiles' %}">Members</a></li>
-                <li class="header__menuItem"><a href="{% url 'portfolios' %}">Portfolios</a></li>
-                
-                
                 {% if request.user.is_authenticated %}
-                  
+                    <li class="header__menuItem"><a href="{% url 'profiles' %}">Timeline</a></li>
+                    <li class="header__menuItem"><a href="{% url 'profiles' %}">Blog</a></li>
+                    <li class="header__menuItem"><a href="{% url 'profiles' %}">How To</a></li>
+                    <li class="header__menuItem"><a href="{% url 'profiles' %}">Members</a></li>
+                    <li class="header__menuItem"><a href="{% url 'portfolios' %}">Portfolios</a></li>
+                    <li class="header__menuItem"><a href="{% url 'account' %}">Account</a></li>
                     <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
                 {% else %}
                     <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub">Login/Sign Up</a></li>

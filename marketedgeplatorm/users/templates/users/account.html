@@ -13,38 +13,8 @@
               Edit</a>
             <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" />
             <h2 class="dev__name">{{profile.username}}</h2>
-            <p class="dev__title">{{profile.short_into}}</p>
-            <p class="dev__location">Based in {{profile.location}}</p>
-
-            <ul class="dev__social">
-              {% if profile.social_github %}
-              <li>
-                <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="im im-github"></i></a>
-              </li>
-              {% endif %}
-
-
-              {% if profile.social_twitter %}
-              <li>
-                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i class="im im-twitter"></i></a>
-              </li>
-              {% endif %}
-
-              {% if profile.social_linkedin %}
-              <li>
-                <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i
-                    class="im im-linkedin"></i></a>
-              </li>
-              {% endif %}
-
-              {% if profile.social_website %}
-              <li>
-                <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i
-                    class="im im-globe"></i></a>
-              </li>
-              {% endif %}
-
-            </ul>
+            <p class="dev__location">Member Since </p>
+            <p class="dev__location">{{profile.created}} </p>
 
 
           </div>
@@ -55,31 +25,7 @@
           <h3 class="devInfo__title">About Me</h3>
           <p class="devInfo__about">{{profile.bio}}</p>
         </div>
-        <div class="settings">
-          <h3 class="settings__title">Skills</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-skill' %}"><i
-              class="im im-plus"></i> Add Skill</a>
-        </div>
 
-        <table class="settings__table">
-          {% for skill in skills %}
-          <tr>
-            <td class="settings__tableInfo">
-              <h4>{{skill.name}}</h4>
-              <p>
-                {{skill.description}}
-              </p>
-            </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-skill' skill.id %}"><i
-                  class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-skill' skill.id %}?next=/account"><i
-                  class="im im-x-mark-circle-o"></i>
-                Delete</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
 
         <div class="settings">
           <h3 class="settings__title">Portfolios</h3>
@@ -91,18 +37,20 @@
           {% for portfolio in portfolios %}
           <tr>
             <td class="settings__thumbnail">
-              <a href="{% url 'portfolio' portfolio.id %}"><img src="{{portfolio.imageURL}}" alt="portfolio Thumbnail" /></a>
+              <a href="{% url 'portfolio' portfolio.id %}">{{portfolio.name}}</a>
             </td>
             <td class="settings__tableInfo">
-              <a href="{% url 'portfolio' portfolio.id %}">{{portfolio.title}}</a>
               <p>{{portfolio.description|slice:"150"}}</p>
             </td>
             <td class="settings__tableActions">
               <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-portfolio' portfolio.id %}"><i
                   class="im im-edit"></i> Edit</a>
+    
+            </td>
+            <td class="settings__tableActions">
               <a class="tag tag--pill tag--main settings__btn"
-                href="{% url 'delete-portfolio'  portfolio.id %}?next=/account"><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
+              href="{% url 'delete-portfolio'  portfolio.id %}?next=/users/account/"><i class="im im-x-mark-circle-o"></i>
+              Delete</a>
             </td>
           </tr>
           {% endfor %}
