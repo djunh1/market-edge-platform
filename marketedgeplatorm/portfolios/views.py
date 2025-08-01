@@ -73,7 +73,7 @@ def deletePortfolio(request, pk):
     portfolio = Portfolio.objects.get(id=pk)
     if request.method == 'POST':
         portfolio.delete()
-        return redirect('portfolios')
+        return redirect('account')
     
     context = {'object': portfolio}
     return render(request, 'delete_template.html', context)  
