@@ -22,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['email', 'username','bio','profile_image',
+        fields = ['email', 'username', 'bio', 'profile_image',
     ]
 
     def __init__(self, *args, **kwargs):
@@ -31,3 +31,7 @@ class ProfileForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
+
+    def clean_email(self):
+        # Return the original value from the instance to prevent tampering
+        return self.instance.email      

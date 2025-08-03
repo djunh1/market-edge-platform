@@ -64,6 +64,7 @@ def registerUser(request):
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
 
+@login_required(login_url='login')
 def profiles(request):
     # profiles, search_query = searchProfiles(request)
 
@@ -72,7 +73,7 @@ def profiles(request):
     context = {'profiles': profiles}
     return render(request, 'users/profiles.html', context)
 
-
+@login_required(login_url='login')
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {'profile': profile}
@@ -82,9 +83,7 @@ def userProfile(request, pk):
 @login_required(login_url='login')
 def userAccount(request):
     profile = request.user.profile
-
     portfolios = profile.portfolio_set.all()
-
     context = {'profile': profile, 'portfolios': portfolios}
     return render(request, 'users/account.html', context)
 
