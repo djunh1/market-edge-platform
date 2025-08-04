@@ -1,8 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, CustomUser
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -49,6 +48,6 @@ def deleteUser(sender, instance, **kwargs):
         pass
 
 
-post_save.connect(createProfile, sender=User)
+post_save.connect(createProfile, sender=CustomUser)
 post_save.connect(updateUser, sender=Profile)
 post_delete.connect(deleteUser, sender=Profile)

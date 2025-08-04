@@ -20,11 +20,9 @@ def portfolio(request, pk):
     portfolio = Portfolio.objects.get(id=pk)
     return render(request, 'portfolios/portfolio.html', {'portfolio': portfolio})
 
-
 @login_required(login_url="login")
 def stock(request, pk):
     return HttpResponse('Caesar')
-
 
 @login_required(login_url="login")
 def createPortfolio(request):

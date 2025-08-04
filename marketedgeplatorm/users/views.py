@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.models import User
+
 from django.urls import conf
 from django.db.models import Q
-from .models import Profile
+from .models import Profile, CustomUser
 from .forms import CustomUserCreationForm, ProfileForm
 
 
@@ -21,7 +21,7 @@ def loginUser(request):
         password = request.POST['password']
 
         try:
-            user = User.objects.get(username=username)
+            user = CustomUser.objects.get(username=username)
         except:
             messages.error(request, 'There was a problem')
 
@@ -64,6 +64,7 @@ def registerUser(request):
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
 
+@login_required(login_url='login')
 def profiles(request):
     # profiles, search_query = searchProfiles(request)
 
@@ -72,7 +73,7 @@ def profiles(request):
     context = {'profiles': profiles}
     return render(request, 'users/profiles.html', context)
 
-
+@login_required(login_url='login')
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
     context = {'profile': profile}
@@ -82,9 +83,7 @@ def userProfile(request, pk):
 @login_required(login_url='login')
 def userAccount(request):
     profile = request.user.profile
-
     portfolios = profile.portfolio_set.all()
-
     context = {'profile': profile, 'portfolios': portfolios}
     return render(request, 'users/account.html', context)
 

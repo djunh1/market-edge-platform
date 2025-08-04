@@ -13,7 +13,6 @@ class Portfolio(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
     LONG_TERM_VALUE = 'Long term value investing'
     GROWTH_INVESTING = 'Growth investing, short to long term'
     SWING_TRADE = 'Swing trade, short term'
@@ -29,8 +28,6 @@ class Portfolio(models.Model):
        choices=PORTOFLIO_OPTIONS,
        default=LONG_TERM_VALUE
     )
-
-   
 
     def __str__(self):
         return self.name

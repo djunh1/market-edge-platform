@@ -1,16 +1,15 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, CustomUser
 
 
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['email', 'username', 'password1', 'password2']
         labels = {
-            'first_name': 'Name',
+            'username': 'Username',
         }
 
     def __init__(self, *args, **kwargs):
@@ -23,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['email', 'username','bio','profile_image',
+        fields = ['email', 'username', 'bio', 'profile_image',
     ]
 
     def __init__(self, *args, **kwargs):
@@ -32,3 +31,7 @@ class ProfileForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
+
+    def clean_email(self):
+        # Return the original value from the instance to prevent tampering
+        return self.instance.email      
