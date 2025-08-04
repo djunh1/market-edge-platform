@@ -35,13 +35,12 @@ def edit_account_url():
 
 class TestUserViews(TestCase):
 
-
-    def today():
-        return datetime.date.today()
     
     def setUp(self):
         User = get_user_model()
-        dan_Zanger = CustomUser.objects.create_user(username="danZanger", email='dan_Zanger@test.com', password='subprime_is_contained')
+        dan_Zanger = CustomUser.objects.create_user(username="danZanger", 
+                                                    email='dan_Zanger@test.com', 
+                                                    password='subprime_is_contained')
         dan_Zanger.save()
         self.dans_profile = Profile.objects.get(user=dan_Zanger)
         
@@ -68,7 +67,9 @@ class TestUserViews(TestCase):
         self.portfolio_2.save()
 
         # Second test user
-        pradeep_bonde = CustomUser.objects.create_user(username="stockbee", email='stockbee@test.com', password='always_think_3_days_ahead')
+        pradeep_bonde = CustomUser.objects.create_user(username="stockbee", 
+                                                       email='stockbee@test.com', 
+                                                       password='always_think_3_days_ahead')
         pradeep_bonde.save()
         self.pradeeps_profile = Profile.objects.get(user=pradeep_bonde)
 
@@ -86,7 +87,6 @@ class TestUserViews(TestCase):
         logged_in = self.client.login(email='dan_Zanger@test.com', password='subprime_is_contained')
         self.assertTrue(logged_in)
         
-
     def test_failed_login_invalid_credentials(self) -> None:
         '''
         Login with incorrect credentials
@@ -98,7 +98,6 @@ class TestUserViews(TestCase):
         response = self.client.post('/accounts/login/', {'email': 'dan_Zanger@test.com', 'password': 'wrongpassword'})
         self.assertEqual(response.status_code, 404)
         
-
     def test_user_logout_endpoint_GET_success(self)-> None:
         '''
         logs out and redirect.  Not rocket science
@@ -108,7 +107,6 @@ class TestUserViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/users/login/', status_code=302, 
         target_status_code=200, fetch_redirect_response=True)
-
 
     def test_user_profile_endpoint_GET_success(self)-> None:
         '''
@@ -128,6 +126,16 @@ class TestUserViews(TestCase):
         self.assertEqual(response.context['user'], dan_zanger)
         self.assertEqual(response.context['profile'], dan_zanger.profile)
 
+
+    def test_nonexistant_profile_endpoint_GET_failure(self)-> None:
+        '''
+        Fetch a profile - Requires login
+        '''
+        login = self.client.login(username='dan_Zanger@test.com', password='subprime_is_contained')
+
+        url = user_profile_url(uuid.uuid4())
+        with self.assertRaises(Profile.DoesNotExist):
+            response = self.client.get(url)
 
     def test_user_profile_endpoint_GET_success_others_profile(self) -> None:
         '''
@@ -167,6 +175,15 @@ class TestUserViews(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+        profiles = Profile.objects.all().order_by('id')  # Ensure consistent ordering
+        expected_profiles = [self.pradeeps_profile, self.dans_profile]
+
+        self.assertQuerySetEqual(
+            profiles,
+            expected_profiles,
+            transform=lambda x: x,  # Don't transform, compare objects directly
+            ordered=False
+        )
 
     def test_redirect_if_not_logged_in_GET_redirect(self) -> None:
         '''
