@@ -1,18 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 from .models import Portfolio, Tag
 from .forms import PortfolioForm
+from .utils import searchPortfolios
 
-from django.contrib.auth.decorators import login_required
+
 
 
 @login_required(login_url="login")
 def portfolios(request):
-    # portfolios, search_query = searchportfolios(request)
+    portfolios, search_query = searchPortfolios(request)
     # custom_range, portfolios = paginateportfolios(request, portfolios, 6)
-    portfolios = Portfolio.objects.all()
-    context = {'portfolios': portfolios}
+
+    context = {'portfolios': portfolios, 'search_query': search_query}
     return render(request, 'portfolios/portfolios.html', context)
 
 @login_required(login_url="login")

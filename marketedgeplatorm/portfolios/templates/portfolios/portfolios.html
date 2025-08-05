@@ -15,7 +15,7 @@
                     <div class="form__field">
                         <label for="formInput#search">Search By Portfolios </label>
                         <input class="input input--text" id="formInput#search" type="text" name="search_query"
-                            placeholder="Search by portfolio Title" value="{{search_query}}" />
+                            placeholder="Search investors portfolios" value="{{search_query}}" />
                     </div>
 
                     <input class="btn btn--sub btn--lg" type="submit" value="Search" />
@@ -36,6 +36,7 @@
                                 <h5 class="portfolio__title">{{portfolio.name}}</h3>
                                     <p><a class="portfolio__author" href="{% url 'user-profile' portfolio.owner.id %}">{{portfolio.owner.name}}</a>
                                 </p>
+                                <p class="mumble-block__info">{{portfolio.portfolio_type}}</p>
 
                                 <div class="portfolio__tags">
                                     {% for tag in portfolio.tags.all %}
