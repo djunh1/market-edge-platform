@@ -7,4 +7,4 @@ __pycache__
 .env
 /staticfiles/
 __pycache__
-static/images/profiles
+marketedgeplatorm/static/images/profiles

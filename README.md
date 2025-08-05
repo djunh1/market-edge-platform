@@ -1,11 +1,13 @@
 # market-edge-platform
 
 
-# Todo -
-1.  upgrade to postgres 17
+
+### Dougs app todos. 
+[x] 1.  upgrade to postgres 17
 2. For blog, add post/Review model
 3. Add stocks to the portfolios
-[ ] 4. Unit tests
+4. Add integration to FMP for getting stock prices
+[x] 5. Unit tests
 
 
 
@@ -69,58 +71,79 @@ import pdb; pdb.set_trace()
 
 ```
     python manage.py test
-
-    python manage.py test 
+    // For single tests.
+    python manage.py test portfolios.tests.test_web
 ```
 
 
 
-Postgres crap
+# Do you love to get postgres setup for your local python environment?  
+# if so, follow the following to get going
 
+1.  Install via homebrew
+```
 brew services start postgresql@17
 psql postgres
-CREATE ROLE sqlmigrations WITH LOGIN CREATEDB CREATEROLE;
+```
 
-# now log in 
+2. Now log in
+```
 psql -U sqlmigrations -d postgres
+```
 
-CREATE DATABASE mktedge_db_2;
+3. Create the DB for your app, and make sure to include this in an .env file out of source control
+CREATE DATABASE <db_name>;
 
-# Log in again
-psql -U sqlmigrations -d mktedge_db_2
+4. Log in again
+```
+psql -U sqlmigrations -d <db_name>
+```
 
+5. Create the user role for your Django app
+```
+CREATE ROLE <my_user> WITH LOGIN;
+```
 
-CREATE ROLE mktedge_user WITH LOGIN;
-
+You may also list users to verify its there
+```
 \du to list users
+```
 
+6. Its important your user has the priviledges it needs to operate in this new table
+```
 GRANT SELECT, INSERT, UPDATE, DELETE
     ON ALL TABLES
     IN SCHEMA public
-    TO mktedge_user;
+    TO <my_user>;
 -- Enable this for all new tables.
 ALTER DEFAULT PRIVILEGES
     GRANT SELECT, INSERT, UPDATE, DELETE
     ON TABLES
-    TO mktedge_user;
+    TO <my_user>;
 -- Allow our user to use SEQUENCES.
 -- It's required to insert data with auto-incrementing primary keys for instance.
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO mktedge_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO <my_user>;
 ALTER DEFAULT PRIVILEGES
     GRANT USAGE, SELECT
     ON SEQUENCES
-    TO mktedge_user;
+    TO <my_user>;
+```
 
-
+7. 
+```
 REVOKE GRANT OPTION
     FOR ALL PRIVILEGES
     ON ALL TABLES
     IN SCHEMA public
-    FROM mktedge_user;
+    FROM <my_user>;
 ALTER DEFAULT PRIVILEGES
     REVOKE GRANT OPTION
     FOR ALL PRIVILEGES
     ON TABLES
-    FROM mktedge_user;
+    FROM <my_user>;
+```
 
-psql -U postgres -d mktedge_db_2
+8. You may now log in to your new DB in the console.
+```
+psql -U postgres -d <db_name>
+```
