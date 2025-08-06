@@ -8,7 +8,7 @@ from django.urls import conf
 from django.db.models import Q
 from .models import Profile, CustomUser
 from .forms import CustomUserCreationForm, ProfileForm
-from .utils import searchProfiles
+from .utils import searchProfiles, paginateProfiles
 
 
 def loginUser(request):
@@ -68,10 +68,9 @@ def registerUser(request):
 @login_required(login_url='login')
 def profiles(request):
     profiles, search_query = searchProfiles(request)
+    custom_range, profiles = paginateProfiles(request, profiles, 25)
 
-    # custom_range, profiles = paginateProfiles(request, profiles, 3)
-
-    context = {'profiles': profiles, 'search_query': search_query}
+    context = {'profiles': profiles, 'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'users/profiles.html', context)
 
 @login_required(login_url='login')
