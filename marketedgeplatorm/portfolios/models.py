@@ -33,7 +33,50 @@ class Portfolio(models.Model):
         return self.name
     
     class Meta:
-        ordering = ['created_at']
+        ordering = ['name']
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list('owner__id', flat=True)
+        return queryset
+
+    # Won't use this yet. It may be helpful to vote on portfolios later on, if nothing else than 
+    # for sentiment checks
+    # @property
+    # def getVoteCount(self):
+    #     reviews = self.review_set.all()
+    #     upVotes = reviews.filter(value='up').count()
+    #     totalVotes = reviews.count()
+
+    #     ratio = (upVotes / totalVotes) * 100
+    #     self.vote_total = totalVotes
+    #     self.vote_ratio = ratio
+
+    #     self.save()
+
+
+class Review(models.Model):
+    VOTE_TYPE = (
+        ('up', 'Up Vote'),
+        ('down', 'Down Vote'),
+    )
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    body = models.TextField(null=True, blank=True)
+    value = models.CharField(max_length=200, choices=VOTE_TYPE, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True,
+                          primary_key=True, editable=False)
+
+    # One comment on a portfolio per user
+    # class Meta:
+    #     unique_together = [['owner', 'portfolio']]
+
+    def __str__(self):
+        return self.value
+    
+    class Meta:
+        ordering = ['-created']
     
 class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -42,6 +85,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
 
     
     

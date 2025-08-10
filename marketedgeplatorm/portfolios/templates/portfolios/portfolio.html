@@ -37,19 +37,12 @@
                 <div class="singlePortfolio__info">
                     {{portfolio.description}}
                 </div>
-                <h3 class="singlePortfolio__subtitle">Holdings</h3>
+                <h3 class="singlePortfolio__subtitle">Todo Table with holdings</h3>
                 
                 <div class="comments">
-                    <h3 class="singlePortfolio__subtitle">Discussion</h3>
+                    <h3 class="singlePortfolio__subtitle">Discuss</h3>
   
-
-                    {% if request.user.profile.id in portfolio.reviewers %}
-                    <p>You have already submitted your review for this portfolio</p>
-
-                    {% elif request.user.profile == portfolio.owner %}
-                    <p>You cannot review your own work</p>
-
-                    {% elif request.user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                     <form class="form" action="{% url 'portfolio' portfolio.id %}" method="POST">
                         {% csrf_token %}
                         {% for field in form %}
@@ -66,18 +59,19 @@
 
                     <div class="commentList">
                         {% for review in portfolio.review_set.all %}
-                        {% if review.body %}
-                        <div class="comment">
-                            <a href="{% url 'user-profile' review.owner.id  %}">
-                                <img class="avatar avatar--md" src="{{review.owner.profile_image.url}}" alt="user" />
-                            </a>
-                            <div class="comment__details">
-                                <a href="{% url 'user-profile' review.owner.id  %}"
-                                    class="comment__author">{{review.owner.name}}</a>
-                                <p class="comment__info">{{review.body|linebreaksbr}}</p>
+                            {% if review.body %}
+                            <div class="comment">
+                                <a href="{% url 'user-profile' review.owner.id  %}">
+                                    <img class="avatar avatar--md" src="{{review.owner.profile_image.url}}" alt="user" />
+                                </a>
+                                <div class="comment__details">
+                                    <a href="{% url 'user-profile' review.owner.id  %}"
+                                        class="comment__author">{{review.owner.username}}</a> 
+                                        <p class="comment__info">{{review.created}}</p><hr> <br>
+                                    <p class="comment__info">{{review.body|linebreaksbr}}</p>
+                                </div>
                             </div>
-                        </div>
-                        {% endif %}
+                            {% endif %}
                         {% endfor %}
 
                     </div>

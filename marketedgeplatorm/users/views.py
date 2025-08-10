@@ -18,21 +18,23 @@ def loginUser(request):
         return redirect('profiles')
 
     if request.method == 'POST':
-        username = request.POST['username'].lower()
+        email = request.POST['email']
         password = request.POST['password']
 
         try:
-            user = CustomUser.objects.get(username=username)
+            user = CustomUser.objects.get(email=email)
         except:
-            messages.error(request, 'There was a problem')
+            messages.error(request, 'There was a problem fetching the user.')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user)
+            messages.success(request, f'Welcome back {user.username}')
+            #TODO go to the timeline/blog. 
             return redirect(request.GET['next'] if 'next' in request.GET else 'portfolios')
         else:
-            messages.error(request, 'incorrect credentials')
+            messages.error(request, 'Your user name or password were incorrect.')
 
     return render(request, 'users/login_register.html')
 

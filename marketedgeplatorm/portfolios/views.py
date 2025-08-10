@@ -1,10 +1,11 @@
 from django.core import paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 from .models import Portfolio, Tag
-from .forms import PortfolioForm
+from .forms import PortfolioForm, ReviewForm
 from .utils import searchPortfolios, paginatePortfolios
 
 
@@ -19,8 +20,21 @@ def portfolios(request):
 
 @login_required(login_url="login")
 def portfolio(request, pk):
-    portfolio = Portfolio.objects.get(id=pk)
-    return render(request, 'portfolios/portfolio.html', {'portfolio': portfolio})
+    portfolioObj = Portfolio.objects.get(id=pk)
+    form = ReviewForm()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.portfolio = portfolioObj
+        review.owner = request.user.profile
+        review.save()
+
+        #portfolioObj.getVoteCount
+
+        messages.success(request, 'Comment successfully posted.')
+        return redirect('portfolio', pk=portfolioObj.id)
+    return render(request, 'portfolios/portfolio.html', {'portfolio': portfolioObj, 'form': form})
 
 @login_required(login_url="login")
 def stock(request, pk):
