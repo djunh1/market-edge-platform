@@ -16,8 +16,8 @@ def createProfile(sender, instance, created, **kwargs):
             email=user.email,
         )
 
-        subject = 'Welcome to DevSearch'
-        message = 'We are glad you are here!'
+        subject = 'Welcome to Market Edge'
+        message = f'This email serves as confirmation being sent to {user.username}, registered to the following email {user.email}.'
 
         try:
             send_mail(
@@ -28,7 +28,7 @@ def createProfile(sender, instance, created, **kwargs):
                 fail_silently=False,
             )
         except:
-            print('Email failed to send...')
+            print('Email failed to send properly.')
 
 
 def updateUser(sender, instance, created, **kwargs):

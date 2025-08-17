@@ -8,6 +8,8 @@
 3. Add stocks to the portfolios
 4. Add integration to FMP for getting stock prices
 [x] 5. Unit tests
+[] 6. Secure SMTP and different email provider
+[] 7. Logging
 
 
 
