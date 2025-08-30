@@ -11,6 +11,6 @@ urlpatterns = [
     path('users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('portfolios', views.getPortfolios),
     path('portfolio/<str:pk>/', views.getPortfolio),
-    path('portfolio/<str:pk>/weekday-odds/', views.fetchWeekdayOdds),
+    path('weekday-odds/<str:ticker>/', views.fetchWeekdayOdds),
 
 ]

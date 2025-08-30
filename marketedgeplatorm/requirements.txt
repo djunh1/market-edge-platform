@@ -12,15 +12,20 @@ rcssmin==1.1.2
 rjsmin==1.2.2
 sqlparse==0.5.3
 whitenoise==6.9.0
+python-decouple==3.8
+
+#The API
+pandas==2.3.2
+pandas-market-calendars==4.1.4
 
 # new stuff for python stock price
 # django-timescaledb
 # dj-database-url
 # jupyter
-# requests
+requests
 # psycopg[binary]
 # python-decouple
-# pytz
+pytz
 # Celery
 # Redis
 # django-celery-beat 
