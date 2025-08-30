@@ -31,19 +31,21 @@ pyenv install --list
 
 Proceeed with version 3.11 installation:
 ```
-pyenv install 3.12.11
+pyenv install 3.11.13
 ```
 
 3. Create (and activate as needed) the dedicated virtual environment:
 ```
-pyenv virtualenv 3.12.11 django-mkt-app
-pyenv activate django-mkt-app
+pyenv virtualenv 3.11.13 django-portfolio-app-api
+pyenv activate django-portfolio-app-api
 ```
 
-4. Now that you have created your named virtual environment (django-mkt-app etc), set the local python environment:
+4. Now that you have created your named virtual environment (django-portfolio-app-api etc), set the local python environment:
 ```
-pyenv local django-mkt-app
+pyenv local django-portfolio-app-api
 ```
+
+
 
 5.  Install Django and some other basic depedencies to get started:
 ```
